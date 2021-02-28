@@ -35,7 +35,7 @@ class DeviceInfo {
 	relativeText(prev) {
 		return `A ${this.name} can hold around ${Math.round(
 			1 / this.relativeSize(prev)[0]
-		)} ${prev.pluralName} worth's of information`;
+		)} ${prev.pluralName} worths of information`;
 	}
 }
 
