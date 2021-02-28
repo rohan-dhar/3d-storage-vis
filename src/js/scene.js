@@ -29,11 +29,11 @@ export const render = () => renderer.render(scene, camera);
 // redLight2.position.set(30, 0, 1);
 // scene.add(redLight2);
 
-const redLight3 = new DirectionalLight(0xff0000, 1.7);
+const redLight3 = new DirectionalLight(0xff1122, 1.7);
 redLight3.position.set(30, 0, 6);
 scene.add(redLight3);
 
-const blueLight = new DirectionalLight(0x0000ff, 1.8);
+const blueLight = new DirectionalLight(0x3311ff, 1.7);
 blueLight.position.set(-30, 0, 10);
 scene.add(blueLight);
 

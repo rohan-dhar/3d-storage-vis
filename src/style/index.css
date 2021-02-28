@@ -9,7 +9,7 @@
 :root {
 	--text: #fff;
 	--bg: #000;
-	--font: poppins;
+	--font: Rokkitt;
 	font-size: 10pt;
 }
 
@@ -18,7 +18,7 @@ body {
 }
 
 b {
-	font-weight: 800;
+	font-weight: 900;
 }
 
 #hero {

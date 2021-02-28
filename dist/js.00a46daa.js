@@ -38877,10 +38877,10 @@ var render = function render() {
 
 
 exports.render = render;
-var redLight3 = new _three.DirectionalLight(0xff0000, 1.7);
+var redLight3 = new _three.DirectionalLight(0xff1122, 1.7);
 redLight3.position.set(30, 0, 6);
 scene.add(redLight3);
-var blueLight = new _three.DirectionalLight(0x0000ff, 1.8);
+var blueLight = new _three.DirectionalLight(0x3311ff, 1.7);
 blueLight.position.set(-30, 0, 10);
 scene.add(blueLight);
 var ambLight = new _three.AmbientLight(0xadd8e6, 0.1);
@@ -38967,7 +38967,7 @@ var DeviceInfo = /*#__PURE__*/function () {
     key: "relativeSize",
     value: function relativeSize(next) {
       var relative = next.bytes / this.bytes;
-      var rowSize = Math.floor(Math.sqrt(relative * 5));
+      var rowSize = Math.floor(Math.sqrt(relative * 3.6));
       return [relative, rowSize];
     }
   }, {
@@ -45248,7 +45248,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65533" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49687" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
