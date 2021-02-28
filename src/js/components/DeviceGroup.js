@@ -285,9 +285,6 @@ class DeviceGroup {
 		}
 		const { scroll } = this;
 
-		if (scroll <= 0) {
-			return;
-		}
 		/****************
 
 			STATES:
@@ -324,16 +321,16 @@ class DeviceGroup {
 
 		****************/
 
-		this.timelines.hero.enter.progress(minMax(scroll / 0.35));
+		this.timelines.hero.enter.progress(minMax(scroll / 0.4));
 
 		if (this.number <= 1) {
 			return;
 		}
-		this.timelines.hero.combine.progress(minMax((scroll - 0.35) / 0.35));
+		this.timelines.hero.combine.progress(minMax((scroll - 0.4) / 0.3));
 		this.timelines.hero.exit.progress(minMax((scroll - 0.7) / 0.3));
 
 		this.timelines.rest.forEach(({ enter, exit }) => {
-			enter.progress(minMax((scroll - 0.35) / 0.35));
+			enter.progress(minMax((scroll - 0.4) / 0.3));
 			exit.progress(minMax((scroll - 0.7) / 0.3));
 		});
 	}

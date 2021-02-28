@@ -5,7 +5,7 @@ import {
 	AmbientLight,
 	Vector2,
 	MathUtils,
-	DirectionalLight,
+	PointLight,
 } from "three";
 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
@@ -21,23 +21,23 @@ export const renderer = new WebGLRenderer({ antialias: true, alpha: true });
 
 export const render = () => renderer.render(scene, camera);
 
-// const redLight = new DirectionalLight(0xff0000, 0.65);
-// redLight.position.set(-30, 0, 1);
-// scene.add(redLight);
+const redLight1 = new PointLight(0xff1122, 1);
+redLight1.position.set(30, 30, 10);
+scene.add(redLight1);
 
-// const redLight2 = new DirectionalLight(0xff0000, 0.65);
-// redLight2.position.set(30, 0, 1);
-// scene.add(redLight2);
+const redLight2 = new PointLight(0xff1122, 1);
+redLight2.position.set(-30, -30, -10);
+scene.add(redLight2);
 
-const redLight3 = new DirectionalLight(0xff1122, 1.7);
-redLight3.position.set(30, 0, 6);
-scene.add(redLight3);
+const blueLight1 = new PointLight(0x3311ff, 1);
+blueLight1.position.set(-30, 30, 10);
+scene.add(blueLight1);
 
-const blueLight = new DirectionalLight(0x3311ff, 1.7);
-blueLight.position.set(-30, 0, 10);
-scene.add(blueLight);
+const blueLight2 = new PointLight(0x3311ff, 1);
+blueLight2.position.set(30, -30, -10);
+scene.add(blueLight2);
 
-const ambLight = new AmbientLight(0xadd8e6, 0.1);
+const ambLight = new AmbientLight(0xffffff, 0.05);
 scene.add(ambLight);
 
 export const setup = () => {

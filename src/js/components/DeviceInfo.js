@@ -28,14 +28,14 @@ class DeviceInfo {
 
 	relativeSize(next) {
 		const relative = next.bytes / this.bytes;
-		const rowSize = Math.floor(Math.sqrt(relative * 3.6));
+		const rowSize = Math.floor(Math.sqrt(relative * 3));
 		return [relative, rowSize];
 	}
 
-	relativeText(next) {
-		return `${next.name} can hold around ${this.relativeSize(next)[0]} ${
-			this.pluralName
-		} worth's of information`;
+	relativeText(prev) {
+		return `A ${this.name} can hold around ${Math.round(
+			1 / this.relativeSize(prev)[0]
+		)} ${prev.pluralName} worth's of information`;
 	}
 }
 

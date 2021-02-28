@@ -2,6 +2,7 @@
 	padding: 0;
 	margin: 0;
 	background-color: transparent;
+	box-sizing: border-box;
 	font-family: var(--font);
 	color: var(--text);
 }
@@ -21,30 +22,48 @@ b {
 	font-weight: 900;
 }
 
-#hero {
+.cont {
 	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
+	border: 3px solid var(--text);
 	margin: auto;
-	height: 100vh;
-	width: 55%;
+	padding: 40px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
 	text-align: center;
+	max-width: 800px;
 	/* transition: opacity 0.05s; */
 }
 
-#hero h1 {
-	font-size: 3.5rem;
-	font-weight: 200;
+#hero {
+	transform: translateY(-50%);
+	width: 55%;
+	top: 50%;
+	left: 0;
+	right: 0;
 }
 
-#hero p {
-	margin-top: 30px;
+.cont h1 {
+	position: relative;
+	font-size: 3.5rem;
+	font-weight: 200;
+	padding-bottom: 40px;
+}
+
+.cont h1::after {
+	content: "";
+	position: absolute;
+	height: 4px;
+	width: 75px;
+	background-color: var(--text);
+	bottom: 20px;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.cont p {
 	font-size: 1.6rem;
 	opacity: 0.5;
 }
@@ -52,6 +71,33 @@ b {
 canvas {
 	position: relative;
 	z-index: 100;
+}
+#overlay {
+	width: 24%;
+	max-height: 45%;
+	overflow: auto;
+	top: 40px;
+	left: 40px;
+	padding: 28px;
+}
+
+#overlay h1 {
+	font-size: 2.5rem;
+}
+
+.overlay-year {
+	margin: 8px 0;
+	font-style: italic;
+}
+
+.overlay-size {
+	font-weight: 700;
+	opacity: 1 !important;
+}
+
+.overlay-desc {
+	opacity: 1 !important;
+	margin-top: 5px;
 }
 
 

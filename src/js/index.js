@@ -1,4 +1,3 @@
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { Vector3 } from "three";
 
 import { setup, render as renderScene } from "./scene";
@@ -18,7 +17,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	setup();
 
 	const floppyInfo = new DeviceInfo("Floppy", "floppies", 1000000, 1976);
-	const cdInfo = new DeviceInfo("Compact Disc - CD", "CDs", 760000000, 1999);
+	const cdInfo = new DeviceInfo("Compact Disc - CD", "CDs", 760000000, 1982);
 	const flashInfo = new DeviceInfo(
 		"Flash Drive",
 		"flash drives",
@@ -33,8 +32,8 @@ window.addEventListener("DOMContentLoaded", () => {
 	);
 
 	const scaleFloppy = new Vector3(0.25, 0.25, 0.25);
-	const scaleCd = new Vector3(2.5, 2.5, 2.5);
-	const scaleFlash = new Vector3(0.4, 0.4, 0.4);
+	const scaleCd = new Vector3(2.2, 2.2, 2.2);
+	const scaleFlash = new Vector3(0.25, 0.25, 0.25);
 
 	const floppyAsset = new Asset(floppyModel);
 	const cdAsset = new Asset(cdModel);
@@ -59,7 +58,7 @@ window.addEventListener("DOMContentLoaded", () => {
 			info: flashInfo,
 			nextInfo: hddInfo,
 			asset: flashAsset,
-			scaleBy: 7,
+			scaleBy: 5.8,
 		}),
 	];
 
