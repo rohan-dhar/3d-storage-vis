@@ -28,7 +28,7 @@ class DeviceInfo {
 
 	relativeSize(next) {
 		const relative = next.bytes / this.bytes;
-		const rowSize = Math.floor(Math.sqrt(relative * 3));
+		const rowSize = Math.floor(Math.sqrt(relative * 3.5));
 		return [relative, rowSize];
 	}
 

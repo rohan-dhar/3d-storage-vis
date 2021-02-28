@@ -36210,13 +36210,13 @@ var DeviceInfo = /*#__PURE__*/function () {
     key: "relativeSize",
     value: function relativeSize(next) {
       var relative = next.bytes / this.bytes;
-      var rowSize = Math.floor(Math.sqrt(relative * 3));
+      var rowSize = Math.floor(Math.sqrt(relative * 3.5));
       return [relative, rowSize];
     }
   }, {
     key: "relativeText",
     value: function relativeText(prev) {
-      return "A ".concat(this.name, " can hold around ").concat(Math.round(1 / this.relativeSize(prev)[0]), " ").concat(prev.pluralName, " worth's of information");
+      return "A ".concat(this.name, " can hold around ").concat(Math.round(1 / this.relativeSize(prev)[0]), " ").concat(prev.pluralName, " worths of information");
     }
   }]);
 
@@ -73351,7 +73351,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54217" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54478" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
