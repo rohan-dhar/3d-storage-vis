@@ -1,0 +1,12 @@
+		const canvas = document.createElement("canvas");
+		const ctx = canvas.getContext("2d");
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerWidthHeight;
+
+		ctx.fillStyle = "#fff";
+		ctx.font = "700 25pt Poppins";
+		const headText = "Visualize Relative Storage Capacity";
+		const subText =
+			"This demo visualizes relative storage capacities of various storage devices.\nBegin scroll to start the experience.";
+
+		ctx.fillText("");

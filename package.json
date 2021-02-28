@@ -1,0 +1,18 @@
+{
+	"name": "dis-demo",
+	"version": "1.0.0",
+	"main": "index.js",
+	"license": "MIT",
+	"description": "A demo for Design of Interactive Systems in Three.js",
+	"author": "Rohan Dhar",
+	"private": true,
+	"scripts": {
+		"start": "parcel ./src/index.html",
+		"build": "parcel build ./src/index.html"
+	},
+	"dependencies": {
+		"gsap": "^3.6.0",
+		"parcel-bundler": "^1.12.4",
+		"three": "^0.125.2"
+	}
+}
