@@ -1,18 +1,11 @@
 import { scene } from "../scene";
-import {
-	BoxGeometry,
-	CylinderGeometry,
-	Mesh,
-	MeshPhongMaterial,
-	MeshPhysicalMaterial,
-	MeshStandardMaterial,
-} from "three";
+import { CylinderGeometry, Mesh, MeshPhysicalMaterial } from "three";
 import minMax, { minMaxFactory } from "../utils/minMax";
 import Overlay from "./Overlay";
 import { infinity } from "../conf";
 
 class Orchestrator {
-	static sectionHeight = 1800;
+	static sectionHeight = 1000;
 	static scrollSpeed = 2;
 	static scrollBy = 3.5;
 	static overlayTill = 0.5;
@@ -100,7 +93,8 @@ class Orchestrator {
 		this.hero.classList.add("cont");
 		this.hero.innerHTML = `
 			<h1 class="sep-head">Welcome to <b>storage visualization</b></h1>
-			<p>This demo visualizes the storage capacities of various devices, in three dimensions. Begin scrolling to start the experience</p>
+			<p>This demo visualizes the storage capacities of various devices, in three dimensions.</p>
+			<p>Begin scrolling by using the mouse, or the arrow keys, to start the experience</p>
 		`;
 		document.body.insertBefore(this.hero, document.body.firstChild);
 	}

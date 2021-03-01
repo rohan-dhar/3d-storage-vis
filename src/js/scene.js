@@ -2,10 +2,10 @@ import {
 	Scene,
 	PerspectiveCamera,
 	WebGLRenderer,
-	AmbientLight,
 	Vector2,
 	MathUtils,
 	PointLight,
+	Color,
 } from "three";
 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
@@ -19,27 +19,30 @@ export const camera = new PerspectiveCamera(
 );
 export const renderer = new WebGLRenderer({ antialias: true, alpha: true });
 
-export const render = () => renderer.render(scene, camera);
+export const render = () => {
+	renderer.render(scene, camera);
+};
 
-const redLight1 = new PointLight(0xff0922, 1);
+const redLight1 = new PointLight(0xff0000, 5.8, 76);
 redLight1.position.set(40, 40, 10);
 scene.add(redLight1);
 
-const redLight2 = new PointLight(0xff0922, 1);
+const redLight2 = new PointLight(0xff0000, 5.8, 76);
 redLight2.position.set(-40, -40, -10);
 scene.add(redLight2);
 
-const blueLight1 = new PointLight(0x1100ff, 1);
+const blueLight1 = new PointLight(0x0000ff, 5.8, 76);
 blueLight1.position.set(-40, 40, 10);
 scene.add(blueLight1);
 
-const blueLight2 = new PointLight(0x1100ff, 1);
+const blueLight2 = new PointLight(0x0000ff, 5.8, 76);
 blueLight2.position.set(40, -40, -10);
+
 scene.add(blueLight2);
 
-const centralLight = new PointLight(0x2200ff, 0.1);
-centralLight.position.set(0, 0, 10);
-scene.add(centralLight);
+// const centralLight = new PointLight(0x2200ff, 0.1, 20);
+// centralLight.position.set(0, 0, 10);
+// scene.add(centralLight);
 
 export const setup = () => {
 	renderer.setClearColor("#000000", 0);

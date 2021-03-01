@@ -91,7 +91,7 @@ class Overlay {
 		this.heading.innerText = curr.info.name;
 		this.year.innerText = `Released in ${curr.info.year}`;
 		this.size.innerText = `~ ${curr.info.size}`;
-		this.desc.innerText = prev ? curr.info.relativeText(prev.info) : "";
+		this.desc.innerHTML = prev ? curr.info.relativeText(prev.info) : "";
 	}
 
 	hide() {
@@ -99,7 +99,6 @@ class Overlay {
 			return;
 		}
 		this.overlay.style.display = "none";
-		this.controls.style.display = "none";
 	}
 
 	show() {
@@ -107,7 +106,6 @@ class Overlay {
 			return;
 		}
 		this.overlay.style.display = "flex";
-		this.controls.style.display = "flex";
 	}
 
 	constructor(groups, orchestrator, initial = 0) {

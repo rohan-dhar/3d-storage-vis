@@ -12,10 +12,11 @@
 	},
 	"browserslist": [
 		"IE 11"
-	],	
+	],
 	"dependencies": {
 		"gsap": "^3.6.0",
 		"parcel-bundler": "^1.12.4",
-		"three": "^0.125.2"
+		"postprocessing": "^6.20.3",
+		"three": "^0.126.0"
 	}
 }

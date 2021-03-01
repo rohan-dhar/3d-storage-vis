@@ -33,7 +33,7 @@ b {
 	justify-content: center;
 	flex-direction: column;
 	text-align: center;
-	max-width: 800px;
+	max-width: 680px;
 	/* transition: opacity 0.05s; */
 }
 
@@ -67,8 +67,19 @@ b {
 
 .cont p {
 	font-size: 1.6rem;
-	opacity: 0.5;
+	color: var(--text-light);
 	width: 100%;
+}
+
+.cont p:nth-of-type(2) {
+	margin-top: 10px;
+
+	color: var(--text);
+}
+
+.cont .btn {
+	width: 150px;
+	margin-top: 40px;
 }
 
 canvas {
@@ -127,7 +138,13 @@ canvas {
 
 .overlay-desc {
 	margin-top: 15px;
-	font-size: 1.3rem;
+	font-size: 1.6rem;
+	color: var(--text-light);
+}
+
+.overlay-desc span {
+	font-size: 2.2rem;
+	color: var(--text);
 }
 
 .overlay-control {
@@ -138,7 +155,7 @@ canvas {
 
 .overlay-control h3 {
 	font-weight: 300;
-	font-size: 1.35rem;
+	font-size: 1.45rem;
 	color: var(--text-light);
 }
 
@@ -157,9 +174,9 @@ canvas {
 }
 
 .overlay-controls-view img {
-	height: 36px;
+	height: 40px;
 	width: auto;
-	margin: 0 6px;
+	margin: 0 3px;
 }
 
 .btn {
@@ -171,4 +188,11 @@ canvas {
 	text-transform: uppercase;
 	margin-top: 20px;
 	cursor: pointer;
+	transition: background-color 0.2s, color 0.2s;
+	font-weight: 600;
+}
+
+.btn:hover {
+	background-color: var(--text);
+	color: var(--bg);
 }
