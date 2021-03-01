@@ -51,6 +51,7 @@ b {
 	font-weight: 200;
 	padding-bottom: 40px;
 	width: 100%;
+	color: inherit;
 }
 
 .sep-head::after {
@@ -58,7 +59,7 @@ b {
 	position: absolute;
 	height: 2.5px;
 	width: 75px;
-	background-color: var(--text);
+	background-color: currentColor;
 	bottom: 20px;
 	left: 0;
 	right: 0;
@@ -73,7 +74,6 @@ b {
 
 .cont p:nth-of-type(2) {
 	margin-top: 10px;
-
 	color: var(--text);
 }
 
@@ -96,6 +96,13 @@ canvas {
 	left: 40px;
 	display: flex;
 	flex-direction: column;
+	background-color: var(--text);
+	color: var(--bg);
+	padding: 20px;
+}
+
+.overlay * {
+	color: inherit;
 }
 
 .overlay-right {
@@ -105,6 +112,9 @@ canvas {
 	text-align: right;
 	max-height: initial;
 	min-width: 260px;
+	background-color: initial;
+	color: var(--text);
+	padding: 0;
 }
 
 .overlay h1 {
@@ -144,7 +154,7 @@ canvas {
 
 .overlay-desc span {
 	font-size: 2.2rem;
-	color: var(--text);
+	color: var(--bg);
 }
 
 .overlay-control {
@@ -190,6 +200,7 @@ canvas {
 	cursor: pointer;
 	transition: background-color 0.2s, color 0.2s;
 	font-weight: 600;
+	color: var(--text);
 }
 
 .btn:hover {
