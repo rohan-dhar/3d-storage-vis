@@ -2,9 +2,10 @@ import { MathUtils, Vector3 } from "three";
 import Device from "./Device";
 import { TimelineLite, Power2 } from "gsap";
 import minMax from "../utils/minMax";
+import { infinity } from "../conf";
 
 class DeviceGroup {
-	static yPush = -20;
+	static yPush = -infinity;
 	static xPush = 50;
 	static deviceGap = 0.1;
 	static largeDeviceGap = 0.35;

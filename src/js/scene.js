@@ -21,24 +21,25 @@ export const renderer = new WebGLRenderer({ antialias: true, alpha: true });
 
 export const render = () => renderer.render(scene, camera);
 
-const redLight1 = new PointLight(0xff1122, 1);
-redLight1.position.set(30, 30, 10);
+const redLight1 = new PointLight(0xff0922, 1);
+redLight1.position.set(40, 40, 10);
 scene.add(redLight1);
 
-const redLight2 = new PointLight(0xff1122, 1);
-redLight2.position.set(-30, -30, -10);
+const redLight2 = new PointLight(0xff0922, 1);
+redLight2.position.set(-40, -40, -10);
 scene.add(redLight2);
 
-const blueLight1 = new PointLight(0x3311ff, 1);
-blueLight1.position.set(-30, 30, 10);
+const blueLight1 = new PointLight(0x1100ff, 1);
+blueLight1.position.set(-40, 40, 10);
 scene.add(blueLight1);
 
-const blueLight2 = new PointLight(0x3311ff, 1);
-blueLight2.position.set(30, -30, -10);
+const blueLight2 = new PointLight(0x1100ff, 1);
+blueLight2.position.set(40, -40, -10);
 scene.add(blueLight2);
 
-const ambLight = new AmbientLight(0xffffff, 0.05);
-scene.add(ambLight);
+const centralLight = new PointLight(0x2200ff, 0.1);
+centralLight.position.set(0, 0, 10);
+scene.add(centralLight);
 
 export const setup = () => {
 	renderer.setClearColor("#000000", 0);
