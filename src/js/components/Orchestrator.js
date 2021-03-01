@@ -21,6 +21,8 @@ class Orchestrator {
 	_scroll = 0;
 	_play = false;
 
+	maxHeight = 0;
+
 	minMax = null;
 	walls = [];
 	overlay = null;
@@ -35,8 +37,8 @@ class Orchestrator {
 	}
 
 	set scroll(scroll) {
-		if (scroll >= Orchestrator.sectionHeight * this.groups.length) {
-			scroll = Orchestrator.sectionHeight * this.groups.length;
+		if (scroll >= this.maxHeight) {
+			scroll = this.maxHeight;
 		} else if (scroll <= 0) {
 			scroll = 0;
 		}
@@ -56,21 +58,20 @@ class Orchestrator {
 	}
 
 	set play(play) {
-		if (
-			play &&
-			this.scroll >= Orchestrator.sectionHeight * this.groups.length
-		) {
+		if (play && this.scroll >= this.maxHeight) {
 			return;
 		}
+		this.up = false;
+		this.down = false;
 		this._play = play;
+		this.overlay.renderControls();
 	}
 
 	constructor(groups) {
 		this.groups = groups;
-		this.minMax = minMaxFactory(
-			0,
-			Orchestrator.sectionHeight * this.groups.length
-		);
+		this.maxHeight =
+			Orchestrator.sectionHeight * (this.groups.length - 2.3);
+		this.minMax = minMaxFactory(0, this.maxHeight);
 		this.attachListeners();
 		this.mountHero();
 		this.setupWalls();
@@ -164,8 +165,8 @@ class Orchestrator {
 			this.scroll += Orchestrator.scrollBy;
 		}
 
-		if (this.scroll >= Orchestrator.sectionHeight * this.groups.length) {
-			this.scroll = Orchestrator.sectionHeight * this.groups.length;
+		if (this.scroll >= this.maxHeight) {
+			this.scroll = this.maxHeight;
 			this.play = false;
 			return;
 		}
@@ -177,6 +178,7 @@ class Orchestrator {
 	render() {
 		this.updateScoll();
 		this.updateHero();
+
 		this.groups.forEach((group, i) => {
 			let scroll = this.scroll - i * 0.35 * Orchestrator.sectionHeight;
 			group.scroll = minMax(scroll / Orchestrator.sectionHeight);

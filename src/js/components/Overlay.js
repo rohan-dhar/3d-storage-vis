@@ -57,10 +57,12 @@ class Overlay {
 		this.toggleBtn = this.controls.querySelector(".btn");
 		this.toggleBtn.addEventListener("click", () => {
 			this.orchestrator.play = !this.orchestrator.play;
-			this.toggleBtn.innerText = this.orchestrator.play
-				? "Pause"
-				: "Play";
+			this.renderControls();
 		});
+	}
+
+	renderControls() {
+		this.toggleBtn.innerText = this.orchestrator.play ? "Pause" : "Play";
 	}
 
 	mount() {

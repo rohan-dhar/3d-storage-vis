@@ -62,6 +62,7 @@ window.addEventListener("DOMContentLoaded", () => {
 			nextInfo: hddInfo,
 			asset: flashAsset,
 			scaleBy: 5.8,
+			exitable: false,
 		}),
 		new DeviceGroup({
 			scale: scaleHdd,

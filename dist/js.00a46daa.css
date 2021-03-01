@@ -92,6 +92,8 @@ canvas {
 	left: initial;
 	right: 40px;
 	text-align: right;
+	max-height: initial;
+	min-width: 260px;
 }
 
 .overlay h1 {

@@ -1,4 +1,4 @@
-import { MathUtils, Vector3 } from "three";
+import { Blending, MathUtils, Vector3 } from "three";
 import Device from "./Device";
 import { TimelineLite, Power2 } from "gsap";
 import minMax from "../utils/minMax";
@@ -9,6 +9,11 @@ class DeviceGroup {
 	static xPush = 50;
 	static deviceGap = 0.1;
 	static largeDeviceGap = 0.35;
+
+	startLoad = null;
+	endLoad = null;
+
+	exitable = true;
 
 	devices = [];
 	hero = null;
@@ -209,10 +214,14 @@ class DeviceGroup {
 	}
 
 	handleLoadComplete() {
+		this.endLoad = new Date().getTime();
 		console.info(
-			`%c [LOADED] %c ${this.info.name} loaded with ${this.number} instances`,
+			`%c [ ✅ LOADED ] %c ${this.info.name} loaded with ${
+				this.number
+			} instances in %c ${(this.endLoad - this.startLoad) / 1000}s`,
 			"color: #2ecc91",
-			"color: inherit"
+			"color: inherit",
+			"color: #22a7ff"
 		);
 
 		this.setupPosition();
@@ -231,7 +240,7 @@ class DeviceGroup {
 					.divideScalar(this.scaleBy);
 			}
 		}
-		if (this.loaded >= this.number - 1) {
+		if (this.loaded >= this.number) {
 			this.handleLoadComplete();
 		}
 	}
@@ -240,17 +249,21 @@ class DeviceGroup {
 		scroll,
 		scale,
 		info,
+		exitable = true,
 		nextInfo = null,
 		scaleBy = 10.5,
 		...rest
 	}) {
+		this.startLoad = new Date().getTime();
 		if (nextInfo) {
 			[this.number, this.rowSize] = info.relativeSize(nextInfo);
 		} else {
 			this.number = 1;
 			this.rowCount = 1;
 		}
-
+		this.number = Math.round(this.number);
+		this.rowSize = Math.round(this.rowSize);
+		this.exitable = exitable;
 		this.scroll = scroll ?? 0;
 		this.info = info;
 		this.scaleBy = scaleBy;
@@ -328,11 +341,15 @@ class DeviceGroup {
 			return;
 		}
 		this.timelines.hero.combine.progress(minMax((scroll - 0.4) / 0.3));
-		this.timelines.hero.exit.progress(minMax((scroll - 0.7) / 0.3));
+		if (this.exitable) {
+			this.timelines.hero.exit.progress(minMax((scroll - 0.7) / 0.3));
+		}
 
 		this.timelines.rest.forEach(({ enter, exit }) => {
 			enter.progress(minMax((scroll - 0.4) / 0.3));
-			exit.progress(minMax((scroll - 0.7) / 0.3));
+			if (this.exitable) {
+				exit.progress(minMax((scroll - 0.7) / 0.3));
+			}
 		});
 	}
 }

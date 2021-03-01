@@ -36319,7 +36319,9 @@ var Device = /*#__PURE__*/function () {
       }
 
       var box = new _three.Box3().setFromObject(this.model);
-      return box.getSize();
+      var size = new _three.Vector3();
+      box.getSize(size);
+      return size;
     }
   }, {
     key: "init",
@@ -41884,13 +41886,21 @@ var DeviceGroup = /*#__PURE__*/function () {
     var scroll = _ref.scroll,
         scale = _ref.scale,
         info = _ref.info,
+        _ref$exitable = _ref.exitable,
+        exitable = _ref$exitable === void 0 ? true : _ref$exitable,
         _ref$nextInfo = _ref.nextInfo,
         nextInfo = _ref$nextInfo === void 0 ? null : _ref$nextInfo,
         _ref$scaleBy = _ref.scaleBy,
         scaleBy = _ref$scaleBy === void 0 ? 10.5 : _ref$scaleBy,
-        rest = _objectWithoutProperties(_ref, ["scroll", "scale", "info", "nextInfo", "scaleBy"]);
+        rest = _objectWithoutProperties(_ref, ["scroll", "scale", "info", "exitable", "nextInfo", "scaleBy"]);
 
     _classCallCheck(this, DeviceGroup);
+
+    _defineProperty(this, "startLoad", null);
+
+    _defineProperty(this, "endLoad", null);
+
+    _defineProperty(this, "exitable", true);
 
     _defineProperty(this, "devices", []);
 
@@ -41919,6 +41929,8 @@ var DeviceGroup = /*#__PURE__*/function () {
       }
     });
 
+    this.startLoad = new Date().getTime();
+
     if (nextInfo) {
       var _info$relativeSize = info.relativeSize(nextInfo);
 
@@ -41931,6 +41943,9 @@ var DeviceGroup = /*#__PURE__*/function () {
       this.rowCount = 1;
     }
 
+    this.number = Math.round(this.number);
+    this.rowSize = Math.round(this.rowSize);
+    this.exitable = exitable;
     this.scroll = scroll !== null && scroll !== void 0 ? scroll : 0;
     this.info = info;
     this.scaleBy = scaleBy;
@@ -42080,7 +42095,8 @@ var DeviceGroup = /*#__PURE__*/function () {
   }, {
     key: "handleLoadComplete",
     value: function handleLoadComplete() {
-      console.info("%c [LOADED] %c ".concat(this.info.name, " loaded with ").concat(this.number, " instances"), "color: #2ecc91", "color: inherit");
+      this.endLoad = new Date().getTime();
+      console.info("%c [ \u2705 LOADED ] %c ".concat(this.info.name, " loaded with ").concat(this.number, " instances in %c ").concat((this.endLoad - this.startLoad) / 1000, "s"), "color: #2ecc91", "color: inherit", "color: #22a7ff");
       this.setupPosition();
       this.setHeroTimelines();
       this.setRestTimeline();
@@ -42098,13 +42114,15 @@ var DeviceGroup = /*#__PURE__*/function () {
         }
       }
 
-      if (this.loaded >= this.number - 1) {
+      if (this.loaded >= this.number) {
         this.handleLoadComplete();
       }
     }
   }, {
     key: "render",
     value: function render() {
+      var _this4 = this;
+
       if (this.loaded < this.number) {
         return;
       }
@@ -42148,12 +42166,19 @@ var DeviceGroup = /*#__PURE__*/function () {
       }
 
       this.timelines.hero.combine.progress((0, _minMax.default)((scroll - 0.4) / 0.3));
-      this.timelines.hero.exit.progress((0, _minMax.default)((scroll - 0.7) / 0.3));
+
+      if (this.exitable) {
+        this.timelines.hero.exit.progress((0, _minMax.default)((scroll - 0.7) / 0.3));
+      }
+
       this.timelines.rest.forEach(function (_ref2) {
         var enter = _ref2.enter,
             exit = _ref2.exit;
         enter.progress((0, _minMax.default)((scroll - 0.4) / 0.3));
-        exit.progress((0, _minMax.default)((scroll - 0.7) / 0.3));
+
+        if (_this4.exitable) {
+          exit.progress((0, _minMax.default)((scroll - 0.7) / 0.3));
+        }
       });
     }
   }]);
@@ -45072,8 +45097,14 @@ var Overlay = /*#__PURE__*/function () {
       this.toggleBtn = this.controls.querySelector(".btn");
       this.toggleBtn.addEventListener("click", function () {
         _this.orchestrator.play = !_this.orchestrator.play;
-        _this.toggleBtn.innerText = _this.orchestrator.play ? "Pause" : "Play";
+
+        _this.renderControls();
       });
+    }
+  }, {
+    key: "renderControls",
+    value: function renderControls() {
+      this.toggleBtn.innerText = this.orchestrator.play ? "Pause" : "Play";
     }
   }, {
     key: "mount",
@@ -45174,6 +45205,8 @@ var Orchestrator = /*#__PURE__*/function () {
 
     _defineProperty(this, "_play", false);
 
+    _defineProperty(this, "maxHeight", 0);
+
     _defineProperty(this, "minMax", null);
 
     _defineProperty(this, "walls", []);
@@ -45187,7 +45220,8 @@ var Orchestrator = /*#__PURE__*/function () {
     _defineProperty(this, "hero", null);
 
     this.groups = groups;
-    this.minMax = (0, _minMax.minMaxFactory)(0, Orchestrator.sectionHeight * this.groups.length);
+    this.maxHeight = Orchestrator.sectionHeight * (this.groups.length - 2.3);
+    this.minMax = (0, _minMax.minMaxFactory)(0, this.maxHeight);
     this.attachListeners();
     this.mountHero();
     this.setupWalls();
@@ -45200,8 +45234,8 @@ var Orchestrator = /*#__PURE__*/function () {
       return this._scroll;
     },
     set: function set(scroll) {
-      if (scroll >= Orchestrator.sectionHeight * this.groups.length) {
-        scroll = Orchestrator.sectionHeight * this.groups.length;
+      if (scroll >= this.maxHeight) {
+        scroll = this.maxHeight;
       } else if (scroll <= 0) {
         scroll = 0;
       }
@@ -45222,11 +45256,14 @@ var Orchestrator = /*#__PURE__*/function () {
       return this._play;
     },
     set: function set(play) {
-      if (play && this.scroll >= Orchestrator.sectionHeight * this.groups.length) {
+      if (play && this.scroll >= this.maxHeight) {
         return;
       }
 
+      this.up = false;
+      this.down = false;
       this._play = play;
+      this.overlay.renderControls();
     }
   }, {
     key: "setupWalls",
@@ -45325,8 +45362,8 @@ var Orchestrator = /*#__PURE__*/function () {
         this.scroll += Orchestrator.scrollBy;
       }
 
-      if (this.scroll >= Orchestrator.sectionHeight * this.groups.length) {
-        this.scroll = Orchestrator.sectionHeight * this.groups.length;
+      if (this.scroll >= this.maxHeight) {
+        this.scroll = this.maxHeight;
         this.play = false;
         return;
       }
@@ -45500,7 +45537,8 @@ window.addEventListener("DOMContentLoaded", function () {
     info: flashInfo,
     nextInfo: hddInfo,
     asset: flashAsset,
-    scaleBy: 5.8
+    scaleBy: 5.8,
+    exitable: false
   }), new _DeviceGroup.default({
     scale: scaleHdd,
     info: hddInfo,
@@ -45545,7 +45583,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54675" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57114" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

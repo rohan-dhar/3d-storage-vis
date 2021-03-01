@@ -38,7 +38,9 @@ class Device {
 			return null;
 		}
 		const box = new Box3().setFromObject(this.model);
-		return box.getSize();
+		const size = new Vector3();
+		box.getSize(size);
+		return size;
 	}
 
 	constructor({ position, rotation, scale, asset, onLoad }) {
