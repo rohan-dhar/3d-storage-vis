@@ -1,2 +1,0 @@
-*{padding:0;margin:0;background-color:transparent;font-family:var(--font);color:var(--text)}:root{--text:#fff;--bg:#000;--font:poppins;font-size:10pt}body{background-color:var(--bg)}b{font-weight:800}#hero{position:absolute;top:0;left:0;right:0;bottom:0;margin:auto;height:100vh;width:55%;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center}#hero h1{font-size:3.5rem;font-weight:200}#hero p{margin-top:30px;font-size:1.6rem;opacity:.5}canvas{position:relative;z-index:100}
-/*# sourceMappingURL=/js.ffbe3ff6.css.map */
