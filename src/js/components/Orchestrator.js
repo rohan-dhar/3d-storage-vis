@@ -6,7 +6,7 @@ import { infinity } from "../conf";
 
 class Orchestrator {
 	static sectionHeight = 1000;
-	static scrollSpeed = 2;
+	static scrollSpeed = 0.8;
 	static scrollBy = 3.5;
 	static overlayTill = 0.5;
 
