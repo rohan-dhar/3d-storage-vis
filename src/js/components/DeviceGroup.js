@@ -308,7 +308,36 @@ class DeviceGroup {
 		}
 		const { scroll } = this;
 
-		/****************
+		const enterProg = minMax(scroll / 0.4),
+			combineProg = minMax((scroll - 0.4) / 0.3);
+
+		this.timelines.hero.enter.progress(enterProg);
+		this.infoOverlay.progress(enterProg * 0.5);
+
+		if (this.number <= 1) {
+			return;
+		}
+		this.timelines.hero.combine.progress(combineProg);
+		if (enterProg === 1) {
+			this.infoOverlay.progress(0.5 + combineProg * 0.5);
+		}
+
+		if (this.exitable) {
+			this.timelines.hero.exit.progress(minMax((scroll - 0.7) / 0.3));
+		}
+
+		this.timelines.rest.forEach(({ enter, exit }) => {
+			enter.progress(combineProg);
+			if (this.exitable) {
+				exit.progress(minMax((scroll - 0.7) / 0.3));
+			}
+		});
+	}
+}
+
+export default DeviceGroup;
+
+/****************
 
 			STATES:
 
@@ -343,32 +372,3 @@ class DeviceGroup {
 				Rest: Completely exited
 
 		****************/
-
-		const enterProg = minMax(scroll / 0.4),
-			combineProg = minMax((scroll - 0.4) / 0.3);
-
-		this.timelines.hero.enter.progress(enterProg);
-		this.infoOverlay.progress(enterProg * 0.5);
-
-		if (this.number <= 1) {
-			return;
-		}
-		this.timelines.hero.combine.progress(combineProg);
-		if (enterProg === 1) {
-			this.infoOverlay.progress(0.5 + combineProg * 0.5);
-		}
-
-		if (this.exitable) {
-			this.timelines.hero.exit.progress(minMax((scroll - 0.7) / 0.3));
-		}
-
-		this.timelines.rest.forEach(({ enter, exit }) => {
-			enter.progress(combineProg);
-			if (this.exitable) {
-				exit.progress(minMax((scroll - 0.7) / 0.3));
-			}
-		});
-	}
-}
-
-export default DeviceGroup;

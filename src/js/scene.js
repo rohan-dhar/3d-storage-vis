@@ -31,7 +31,7 @@ const redLight2 = new PointLight(0xff0000, 5.8, 76);
 redLight2.position.set(-40, -40, -10);
 scene.add(redLight2);
 
-const blueLight1 = new PointLight(0x0000ff, 5.8, 76);
+const blueLight1 = new PointLight(0x0000ff, 10, 76);
 blueLight1.position.set(-40, 40, 10);
 scene.add(blueLight1);
 

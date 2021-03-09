@@ -36362,7 +36362,7 @@ scene.add(redLight1);
 var redLight2 = new _three.PointLight(0xff0000, 5.8, 76);
 redLight2.position.set(-40, -40, -10);
 scene.add(redLight2);
-var blueLight1 = new _three.PointLight(0x0000ff, 5.8, 76);
+var blueLight1 = new _three.PointLight(0x0000ff, 10, 76);
 blueLight1.position.set(-40, 40, 10);
 scene.add(blueLight1);
 var blueLight2 = new _three.PointLight(0x0000ff, 5.8, 76);
@@ -42213,13 +42213,13 @@ var InfoOverlay = /*#__PURE__*/function (_Overlay) {
         scale: 1,
         y: 0,
         duration: 1,
-        ease: _gsap.Expo.easeOut
+        ease: _gsap.Power2.easeIn
       }).to(this.el, {
         opacity: 0,
         scale: 0.8,
         y: 150,
         duration: 1,
-        ease: _gsap.Expo.easeOut
+        ease: _gsap.Power2.easeIn
       });
       this.timeline.progress(0.0001);
     }
@@ -42700,37 +42700,6 @@ var DeviceGroup = /*#__PURE__*/function () {
       }
 
       var scroll = this.scroll;
-      /****************
-      		STATES:
-      		scroll <= 0:
-      		Hero: Completely out of view
-      		Text: Completely out of view
-      		Rest: Completely out of view
-      		0 < scroll <= 0.35:
-      		Hero: Entering
-      		Text: Entering
-      		Rest: Completely out of view
-      	
-      	0.35 < scroll < 0.45
-      		Hero: Completely entered
-      		Text: Completely entered
-      		Rest: Completely out of view
-      	
-      	0.45 <= scroll < 0.75:
-      		Hero: Becoming part of rest
-      		Text: Fading away
-      		Rest: Entering
-      	
-      	0.75 <= scroll < 1:
-      		Hero: Exiting with rest
-      		Text: Completely exited
-      		Rest: Exiting
-      		scroll >= 1:
-      		Hero: Completely exited
-      		Text: Completely exited
-      		Rest: Completely exited
-      	****************/
-
       var enterProg = (0, _minMax.default)(scroll / 0.4),
           combineProg = (0, _minMax.default)((scroll - 0.4) / 0.3);
       this.timelines.hero.enter.progress(enterProg);
@@ -42774,6 +42743,42 @@ _defineProperty(DeviceGroup, "deviceGap", 0.1);
 _defineProperty(DeviceGroup, "largeDeviceGap", 0.35);
 
 var _default = DeviceGroup;
+/****************
+
+			STATES:
+
+			scroll <= 0:
+				Hero: Completely out of view
+				Text: Completely out of view
+				Rest: Completely out of view
+
+			0 < scroll <= 0.35:
+				Hero: Entering
+				Text: Entering
+				Rest: Completely out of view
+			
+			0.35 < scroll < 0.45
+				Hero: Completely entered
+				Text: Completely entered
+				Rest: Completely out of view
+			
+			0.45 <= scroll < 0.75:
+				Hero: Becoming part of rest
+				Text: Fading away
+				Rest: Entering
+			
+			0.75 <= scroll < 1:
+				Hero: Exiting with rest
+				Text: Completely exited
+				Rest: Exiting
+
+			scroll >= 1:
+				Hero: Completely exited
+				Text: Completely exited
+				Rest: Completely exited
+
+		****************/
+
 exports.default = _default;
 },{"three":"../node_modules/three/build/three.module.js","./Device":"js/components/Device.js","gsap":"../node_modules/gsap/index.js","./overlays":"js/components/overlays/index.js","../utils/minMax":"js/utils/minMax.js","../conf":"js/conf.js"}],"../node_modules/three/examples/jsm/loaders/GLTFLoader.js":[function(require,module,exports) {
 "use strict";
@@ -45747,8 +45752,8 @@ var Orchestrator = /*#__PURE__*/function () {
       }
     }
   }, {
-    key: "updateScoll",
-    value: function updateScoll() {
+    key: "updateScroll",
+    value: function updateScroll() {
       if (this.up) {
         this.scroll -= Orchestrator.scrollBy;
       }
@@ -45772,7 +45777,7 @@ var Orchestrator = /*#__PURE__*/function () {
     value: function render() {
       var _this2 = this;
 
-      this.updateScoll();
+      this.updateScroll();
       this.updateHero();
       this.groups.forEach(function (group, i) {
         var scroll = _this2.scroll - i * 0.35 * Orchestrator.sectionHeight;
@@ -45997,7 +46002,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57679" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58400" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

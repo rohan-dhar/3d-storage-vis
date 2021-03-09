@@ -105,7 +105,6 @@ class Orchestrator {
 			}
 			this.scroll = this.minMax(this.scroll + deltaY);
 		});
-
 		document.addEventListener("keydown", ({ keyCode }) => {
 			if (keyCode === 32) {
 				this.play = !this.play;
@@ -115,7 +114,6 @@ class Orchestrator {
 				this.down = true;
 			}
 		});
-
 		document.addEventListener("keyup", ({ keyCode }) => {
 			if (keyCode === 38) {
 				this.up = false;
@@ -141,7 +139,7 @@ class Orchestrator {
 		}
 	}
 
-	updateScoll() {
+	updateScroll() {
 		if (this.up) {
 			this.scroll -= Orchestrator.scrollBy;
 		}
@@ -160,7 +158,7 @@ class Orchestrator {
 	}
 
 	render() {
-		this.updateScoll();
+		this.updateScroll();
 		this.updateHero();
 
 		this.groups.forEach((group, i) => {

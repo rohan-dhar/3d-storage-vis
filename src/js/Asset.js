@@ -1,5 +1,4 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-
 class Asset {
 	model = null;
 	callbackQueue = [];
@@ -21,5 +20,4 @@ class Asset {
 		return new Promise((resolve) => this.callbackQueue.push(resolve));
 	}
 }
-
 export default Asset;

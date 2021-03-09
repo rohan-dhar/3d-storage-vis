@@ -1,4 +1,4 @@
-import { TimelineLite, Expo } from "gsap";
+import { TimelineLite, Power2 } from "gsap";
 import Overlay from "./Overlay";
 class InfoOverlay extends Overlay {
 	timeline = null;
@@ -12,14 +12,14 @@ class InfoOverlay extends Overlay {
 				scale: 1,
 				y: 0,
 				duration: 1,
-				ease: Expo.easeOut,
+				ease: Power2.easeIn,
 			})
 			.to(this.el, {
 				opacity: 0,
 				scale: 0.8,
 				y: 150,
 				duration: 1,
-				ease: Expo.easeOut,
+				ease: Power2.easeIn,
 			});
 		this.timeline.progress(0.0001);
 	}
