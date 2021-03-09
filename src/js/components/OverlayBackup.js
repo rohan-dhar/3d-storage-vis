@@ -1,6 +1,3 @@
-import upIcon from "../../assets/up-icon.svg";
-import downIcon from "../../assets/down-icon.svg";
-import spaceIcon from "../../assets/space-icon.svg";
 
 class Overlay {
 	overlay = null;
@@ -35,24 +32,7 @@ class Overlay {
 	}
 
 	mountControls() {
-		this.controls.innerHTML = `
-			<section class="overlay-control">
-				<h1 class="sep-head">Guide</h1>
-				<section class="overlay-controls-view">
-					<img src="${upIcon}" alt="Up Arrow Key" />
-					<img src="${downIcon}" alt="Down Arrow Key" />
-					<img src="${spaceIcon}" alt="Space Arrow Key" />
-				</section>
-				<h3>
-					Use the <b>up or down arrow keys</b> or the <b>mouse's scroll wheel</b> to explore the demo
-					<br /><br />
-					<b>Click, hold and drag (pan)</b> to explore the scenes in three dimension
-					<br /><br />
-					Use the <b> space bar </b> or the <b>button below</b> to play / pause the demo					
-				</h3>	
-				<button class="btn">Play</btn>
-			</section>
-		`;
+		this.controls.innerHTML = ;
 		document.body.appendChild(this.controls);
 		this.toggleBtn = this.controls.querySelector(".btn");
 		this.toggleBtn.addEventListener("click", () => {

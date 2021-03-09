@@ -90,7 +90,7 @@ canvas {
 .overlay {
 	position: absolute;
 	width: 18%;
-	max-height: 45%;
+
 	overflow: auto;
 	top: 40px;
 	left: 40px;
@@ -118,8 +118,9 @@ canvas {
 }
 
 .overlay h1 {
-	font-size: 2.5rem;
+	font-size: 2.2rem;
 	font-weight: 100;
+	height: 65px;
 }
 
 .overlay h1::after {
@@ -136,24 +137,37 @@ canvas {
 	font-weight: 700;
 	opacity: 1 !important;
 	font-size: 1.7rem;
+	margin-top: -5px;
+}
+
+.overlay > img {
+	width: 100%;
+	height: 120px;
+	object-fit: cover;
+	margin-top: 15px;
+}
+
+.overlay-inventor {
+	margin-top: 7px;
+	font-size: 1.3rem;
 }
 
 .overlay-year {
 	font-style: italic;
 	font-size: 1.4rem;
 	opacity: 0.8;
-	margin-top: 15px;
+
 	font-weight: 500;
 }
 
 .overlay-desc {
-	margin-top: 15px;
-	font-size: 1.6rem;
+	margin-top: 10px;
+	font-size: 1.5rem;
 	color: var(--text-light);
 }
 
 .overlay-desc span {
-	font-size: 2.2rem;
+	font-size: 1.8rem;
 	color: var(--bg);
 }
 

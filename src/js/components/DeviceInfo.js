@@ -5,11 +5,20 @@ class DeviceInfo {
 	_size = 1;
 	year = 2000;
 
-	constructor(name, pluralName, size, year) {
+	constructor(
+		name,
+		pluralName,
+		size,
+		year,
+		inventorName = "",
+		inventorImg = ""
+	) {
 		this.name = name;
 		this.pluralName = pluralName;
 		this._size = size;
 		this.year = year;
+		this.inventorName = inventorName;
+		this.inventorImg = inventorImg;
 	}
 
 	get bytes() {

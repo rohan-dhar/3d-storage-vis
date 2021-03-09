@@ -12,24 +12,47 @@ import cdModel from "../assets/cdmain.glb";
 import flashModel from "../assets/flash.glb";
 import hddModel from "../assets/hdd.glb";
 
+import yoshiro from "../assets/yoshiro.jpg";
+import reynold from "../assets/reynold.jpg";
+import james from "../assets/james.jpg";
+import dov from "../assets/dov.jpg";
+
 import "../style/index.css";
 
 window.addEventListener("DOMContentLoaded", () => {
 	setup();
 
-	const floppyInfo = new DeviceInfo("Floppy", "floppies", 1000000, 1976);
-	const cdInfo = new DeviceInfo("Compact Disc - CD", "CDs", 760000000, 1982);
+	const floppyInfo = new DeviceInfo(
+		"Floppy",
+		"floppies",
+		1000000,
+		1976,
+		"Yoshiro Nakamatsu",
+		yoshiro
+	);
+	const cdInfo = new DeviceInfo(
+		"Compact Disc - CD",
+		"CDs",
+		760000000,
+		1982,
+		"James Russell",
+		james
+	);
 	const flashInfo = new DeviceInfo(
 		"Flash Drive",
 		"flash drives",
 		64000000000,
-		2000
+		2000,
+		"Dov Moran",
+		dov
 	);
 	const hddInfo = new DeviceInfo(
 		"Hard disk Drive",
 		"hard disks",
 		10000000000000,
-		2000
+		2000,
+		"Reynold B. Johnson",
+		reynold
 	);
 
 	const scaleFloppy = new Vector3(0.25, 0.25, 0.25);
@@ -47,12 +70,14 @@ window.addEventListener("DOMContentLoaded", () => {
 			scale: scaleFloppy,
 			info: floppyInfo,
 			nextInfo: cdInfo,
+
 			asset: floppyAsset,
 		}),
 		new DeviceGroup({
 			scale: scaleCd,
 			info: cdInfo,
 			nextInfo: flashInfo,
+			prevInfo: floppyInfo,
 			asset: cdAsset,
 			scaleBy: 7,
 		}),
@@ -60,6 +85,7 @@ window.addEventListener("DOMContentLoaded", () => {
 			scale: scaleFlash,
 			info: flashInfo,
 			nextInfo: hddInfo,
+			prevInfo: cdInfo,
 			asset: flashAsset,
 			scaleBy: 5.8,
 			exitable: false,
@@ -67,6 +93,7 @@ window.addEventListener("DOMContentLoaded", () => {
 		new DeviceGroup({
 			scale: scaleHdd,
 			info: hddInfo,
+			prevInfo: flashInfo,
 			asset: hddAsset,
 			scaleBy: 5.8,
 		}),

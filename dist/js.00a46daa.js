@@ -36414,6 +36414,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var DeviceInfo = /*#__PURE__*/function () {
   function DeviceInfo(name, pluralName, size, year) {
+    var inventorName = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : "";
+    var inventorImg = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : "";
+
     _classCallCheck(this, DeviceInfo);
 
     _defineProperty(this, "name", "");
@@ -36428,6 +36431,8 @@ var DeviceInfo = /*#__PURE__*/function () {
     this.pluralName = pluralName;
     this._size = size;
     this.year = year;
+    this.inventorName = inventorName;
+    this.inventorImg = inventorImg;
   }
 
   _createClass(DeviceInfo, [{
@@ -42045,7 +42050,322 @@ TweenMaxWithCSS = gsapWithCSS.core.Tween;
 
 exports.TweenMax = TweenMaxWithCSS;
 exports.default = exports.gsap = gsapWithCSS;
-},{"./gsap-core.js":"../node_modules/gsap/gsap-core.js","./CSSPlugin.js":"../node_modules/gsap/CSSPlugin.js"}],"js/utils/minMax.js":[function(require,module,exports) {
+},{"./gsap-core.js":"../node_modules/gsap/gsap-core.js","./CSSPlugin.js":"../node_modules/gsap/CSSPlugin.js"}],"js/components/overlays/Overlay.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var Overlay = /*#__PURE__*/function () {
+  function Overlay() {
+    _classCallCheck(this, Overlay);
+
+    _defineProperty(this, "el", null);
+
+    _defineProperty(this, "display", "");
+
+    this.mount.apply(this, arguments);
+  }
+
+  _createClass(Overlay, [{
+    key: "mount",
+    value: function mount(tagName) {
+      var _this = this;
+
+      var props = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var before = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      this.el = document.createElement(tagName);
+      Object.entries(props).forEach(function (_ref) {
+        var _ref2 = _slicedToArray(_ref, 2),
+            prop = _ref2[0],
+            value = _ref2[1];
+
+        _this.el[prop] = value;
+      });
+
+      if (before) {
+        document.body.insertBefore(this.el, document.body.firstChild);
+      } else {
+        document.body.appendChild(this.el);
+      }
+
+      this.display = this.el.style.display;
+    }
+  }, {
+    key: "hide",
+    value: function hide() {
+      if (!this.el) {
+        return;
+      }
+
+      this.el.style.display = "none";
+    }
+  }, {
+    key: "show",
+    value: function show() {
+      if (!this.el) {
+        return;
+      }
+
+      this.el.style.display = this.display;
+    }
+  }]);
+
+  return Overlay;
+}();
+
+var _default = Overlay;
+exports.default = _default;
+},{}],"js/components/overlays/InfoOverlay.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _gsap = require("gsap");
+
+var _Overlay2 = _interopRequireDefault(require("./Overlay"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var InfoOverlay = /*#__PURE__*/function (_Overlay) {
+  _inherits(InfoOverlay, _Overlay);
+
+  var _super = _createSuper(InfoOverlay);
+
+  function InfoOverlay(info, prevInfo) {
+    var _this;
+
+    _classCallCheck(this, InfoOverlay);
+
+    _this = _super.call(this, "section", {
+      className: "overlay",
+      innerHTML: "\n                    <h1 class=\"sep-head\">".concat(info.name, "</h1>\n                    <p class=\"overlay-size\">").concat(info.size, "</p>\n                    <p class=\"overlay-year\">").concat(info.year, "</p>\n\t\t\t\t\t<img src=").concat(info.inventorImg, " alt=").concat(info.inventorName, " />\n\t\t\t\t\t<p class=\"overlay-inventor\">Invented by ").concat(info.inventorName, "</p>\n\t\t\t\t\t<p class=\"overlay-desc\">").concat(prevInfo ? info.relativeText(prevInfo) : "", "</p>\n                ")
+    }, false);
+
+    _defineProperty(_assertThisInitialized(_this), "timeline", null);
+
+    _this.makeTimeline();
+
+    return _this;
+  }
+
+  _createClass(InfoOverlay, [{
+    key: "makeTimeline",
+    value: function makeTimeline() {
+      this.timeline = new _gsap.TimelineLite({
+        paused: true
+      });
+      this.timeline.set(this.el, {
+        opacity: 0,
+        scale: 0.8,
+        y: -150
+      }).to(this.el, {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        duration: 1,
+        ease: _gsap.Expo.easeOut
+      }).to(this.el, {
+        opacity: 0,
+        scale: 0.8,
+        y: 150,
+        duration: 1,
+        ease: _gsap.Expo.easeOut
+      });
+      this.timeline.progress(0.0001);
+    }
+  }, {
+    key: "progress",
+    value: function progress(to) {
+      this.timeline.progress(to);
+    }
+  }]);
+
+  return InfoOverlay;
+}(_Overlay2.default);
+
+var _default = InfoOverlay;
+exports.default = _default;
+},{"gsap":"../node_modules/gsap/index.js","./Overlay":"js/components/overlays/Overlay.js"}],"assets/up-icon.svg":[function(require,module,exports) {
+module.exports = "/up-icon.e104dca7.svg";
+},{}],"assets/down-icon.svg":[function(require,module,exports) {
+module.exports = "/down-icon.b3deb101.svg";
+},{}],"assets/space-icon.svg":[function(require,module,exports) {
+module.exports = "/space-icon.656f4fb1.svg";
+},{}],"js/components/overlays/ControlsOverlay.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _Overlay2 = _interopRequireDefault(require("./Overlay"));
+
+var _upIcon = _interopRequireDefault(require("../../../assets/up-icon.svg"));
+
+var _downIcon = _interopRequireDefault(require("../../../assets/down-icon.svg"));
+
+var _spaceIcon = _interopRequireDefault(require("../../../assets/space-icon.svg"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var ControlsOverlay = /*#__PURE__*/function (_Overlay) {
+  _inherits(ControlsOverlay, _Overlay);
+
+  var _super = _createSuper(ControlsOverlay);
+
+  function ControlsOverlay(orchestrator) {
+    var _this;
+
+    _classCallCheck(this, ControlsOverlay);
+
+    _this = _super.call(this, "section", {
+      className: "overlay overlay-right",
+      innerHTML: "\n\t\t\t<section class=\"overlay-control\">\n\t\t\t\t<h1 class=\"sep-head\">Guide</h1>\n\t\t\t\t<section class=\"overlay-controls-view\">\n\t\t\t\t\t<img src=\"".concat(_upIcon.default, "\" alt=\"Up Arrow Key\" />\n\t\t\t\t\t<img src=\"").concat(_downIcon.default, "\" alt=\"Down Arrow Key\" />\n\t\t\t\t\t<img src=\"").concat(_spaceIcon.default, "\" alt=\"Space Arrow Key\" />\n\t\t\t\t</section>\n\t\t\t\t<h3>\n\t\t\t\t\tUse the <b>up or down arrow keys</b> or the <b>mouse's scroll wheel</b> to explore the demo\n\t\t\t\t\t<br /><br />\n\t\t\t\t\t<b>Click, hold and drag (pan)</b> to explore the scenes in three dimension\n\t\t\t\t\t<br /><br />\n\t\t\t\t\tUse the <b> space bar </b> or the <b>button below</b> to play / pause the demo\t\t\t\t\t\n\t\t\t\t</h3>\t\n\t\t\t\t<button class=\"btn\">Play</btn>\n\t\t\t</section>\n\t\t")
+    }, false);
+
+    _defineProperty(_assertThisInitialized(_this), "orchestrator", null);
+
+    _defineProperty(_assertThisInitialized(_this), "btn", null);
+
+    _this.orchestrator = orchestrator;
+
+    _this.attachEvents();
+
+    return _this;
+  }
+
+  _createClass(ControlsOverlay, [{
+    key: "renderControls",
+    value: function renderControls() {
+      this.btn.innerText = this.orchestrator.play ? "Pause" : "Play";
+    }
+  }, {
+    key: "attachEvents",
+    value: function attachEvents() {
+      var _this2 = this;
+
+      this.btn = this.el.querySelector(".btn");
+      this.btn.addEventListener("click", function () {
+        _this2.orchestrator.play = !_this2.orchestrator.play;
+
+        _this2.renderControls();
+      });
+    }
+  }]);
+
+  return ControlsOverlay;
+}(_Overlay2.default);
+
+var _default = ControlsOverlay;
+exports.default = _default;
+},{"./Overlay":"js/components/overlays/Overlay.js","../../../assets/up-icon.svg":"assets/up-icon.svg","../../../assets/down-icon.svg":"assets/down-icon.svg","../../../assets/space-icon.svg":"assets/space-icon.svg"}],"js/components/overlays/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "InfoOverlay", {
+  enumerable: true,
+  get: function () {
+    return _InfoOverlay.default;
+  }
+});
+Object.defineProperty(exports, "ControlsOverlay", {
+  enumerable: true,
+  get: function () {
+    return _ControlsOverlay.default;
+  }
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function () {
+    return _Overlay.default;
+  }
+});
+
+var _InfoOverlay = _interopRequireDefault(require("./InfoOverlay"));
+
+var _ControlsOverlay = _interopRequireDefault(require("./ControlsOverlay"));
+
+var _Overlay = _interopRequireDefault(require("./Overlay"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./InfoOverlay":"js/components/overlays/InfoOverlay.js","./ControlsOverlay":"js/components/overlays/ControlsOverlay.js","./Overlay":"js/components/overlays/Overlay.js"}],"js/utils/minMax.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -42085,6 +42405,8 @@ var _three = require("three");
 var _Device = _interopRequireDefault(require("./Device"));
 
 var _gsap = require("gsap");
+
+var _overlays = require("./overlays");
 
 var _minMax = _interopRequireDefault(require("../utils/minMax"));
 
@@ -42127,13 +42449,15 @@ var DeviceGroup = /*#__PURE__*/function () {
     var scroll = _ref.scroll,
         scale = _ref.scale,
         info = _ref.info,
+        _ref$prevInfo = _ref.prevInfo,
+        prevInfo = _ref$prevInfo === void 0 ? null : _ref$prevInfo,
         _ref$exitable = _ref.exitable,
         exitable = _ref$exitable === void 0 ? true : _ref$exitable,
         _ref$nextInfo = _ref.nextInfo,
         nextInfo = _ref$nextInfo === void 0 ? null : _ref$nextInfo,
         _ref$scaleBy = _ref.scaleBy,
         scaleBy = _ref$scaleBy === void 0 ? 10.5 : _ref$scaleBy,
-        rest = _objectWithoutProperties(_ref, ["scroll", "scale", "info", "exitable", "nextInfo", "scaleBy"]);
+        rest = _objectWithoutProperties(_ref, ["scroll", "scale", "info", "prevInfo", "exitable", "nextInfo", "scaleBy"]);
 
     _classCallCheck(this, DeviceGroup);
 
@@ -42142,6 +42466,12 @@ var DeviceGroup = /*#__PURE__*/function () {
     _defineProperty(this, "endLoad", null);
 
     _defineProperty(this, "exitable", true);
+
+    _defineProperty(this, "info", null);
+
+    _defineProperty(this, "prevInfo", null);
+
+    _defineProperty(this, "infoOverlay", null);
 
     _defineProperty(this, "devices", []);
 
@@ -42189,6 +42519,7 @@ var DeviceGroup = /*#__PURE__*/function () {
     this.exitable = exitable;
     this.scroll = scroll !== null && scroll !== void 0 ? scroll : 0;
     this.info = info;
+    this.infoOverlay = new _overlays.InfoOverlay(info, prevInfo);
     this.scaleBy = scaleBy;
     this.hero = new _Device.default(_objectSpread({
       position: new _three.Vector3(0, DeviceGroup.yPush, 0),
@@ -42400,13 +42731,20 @@ var DeviceGroup = /*#__PURE__*/function () {
       		Rest: Completely exited
       	****************/
 
-      this.timelines.hero.enter.progress((0, _minMax.default)(scroll / 0.4));
+      var enterProg = (0, _minMax.default)(scroll / 0.4),
+          combineProg = (0, _minMax.default)((scroll - 0.4) / 0.3);
+      this.timelines.hero.enter.progress(enterProg);
+      this.infoOverlay.progress(enterProg * 0.5);
 
       if (this.number <= 1) {
         return;
       }
 
-      this.timelines.hero.combine.progress((0, _minMax.default)((scroll - 0.4) / 0.3));
+      this.timelines.hero.combine.progress(combineProg);
+
+      if (enterProg === 1) {
+        this.infoOverlay.progress(0.5 + combineProg * 0.5);
+      }
 
       if (this.exitable) {
         this.timelines.hero.exit.progress((0, _minMax.default)((scroll - 0.7) / 0.3));
@@ -42415,7 +42753,7 @@ var DeviceGroup = /*#__PURE__*/function () {
       this.timelines.rest.forEach(function (_ref2) {
         var enter = _ref2.enter,
             exit = _ref2.exit;
-        enter.progress((0, _minMax.default)((scroll - 0.4) / 0.3));
+        enter.progress(combineProg);
 
         if (_this4.exitable) {
           exit.progress((0, _minMax.default)((scroll - 0.7) / 0.3));
@@ -42437,7 +42775,7 @@ _defineProperty(DeviceGroup, "largeDeviceGap", 0.35);
 
 var _default = DeviceGroup;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","./Device":"js/components/Device.js","gsap":"../node_modules/gsap/index.js","../utils/minMax":"js/utils/minMax.js","../conf":"js/conf.js"}],"../node_modules/three/examples/jsm/loaders/GLTFLoader.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","./Device":"js/components/Device.js","gsap":"../node_modules/gsap/index.js","./overlays":"js/components/overlays/index.js","../utils/minMax":"js/utils/minMax.js","../conf":"js/conf.js"}],"../node_modules/three/examples/jsm/loaders/GLTFLoader.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -45232,155 +45570,7 @@ var Asset = /*#__PURE__*/function () {
 
 var _default = Asset;
 exports.default = _default;
-},{"three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js"}],"assets/up-icon.svg":[function(require,module,exports) {
-module.exports = "/up-icon.e104dca7.svg";
-},{}],"assets/down-icon.svg":[function(require,module,exports) {
-module.exports = "/down-icon.b3deb101.svg";
-},{}],"assets/space-icon.svg":[function(require,module,exports) {
-module.exports = "/space-icon.656f4fb1.svg";
-},{}],"js/components/Overlay.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _upIcon = _interopRequireDefault(require("../../assets/up-icon.svg"));
-
-var _downIcon = _interopRequireDefault(require("../../assets/down-icon.svg"));
-
-var _spaceIcon = _interopRequireDefault(require("../../assets/space-icon.svg"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var Overlay = /*#__PURE__*/function () {
-  function Overlay(groups, orchestrator) {
-    var initial = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-
-    _classCallCheck(this, Overlay);
-
-    _defineProperty(this, "overlay", null);
-
-    _defineProperty(this, "controls", null);
-
-    _defineProperty(this, "orchestrator", null);
-
-    _defineProperty(this, "heading", null);
-
-    _defineProperty(this, "year", null);
-
-    _defineProperty(this, "desc", null);
-
-    _defineProperty(this, "size", null);
-
-    _defineProperty(this, "toggleBtn", null);
-
-    _defineProperty(this, "_current", -1);
-
-    _defineProperty(this, "groups", []);
-
-    this.groups = groups;
-    this.mount();
-    this.hide();
-    this.current = initial;
-    this.orchestrator = orchestrator;
-  }
-
-  _createClass(Overlay, [{
-    key: "mountOverlay",
-    value: function mountOverlay() {
-      this.overlay.innerHTML = "\n\t\t\t<h1 class=\"sep-head\"></h1>\n\t\t\t<p class=\"overlay-size\"></p>\n\t\t\t<p class=\"overlay-year\"></p>\n            <p class=\"overlay-desc\"></p>\n\t\t";
-      document.body.insertBefore(this.overlay, document.body.firstChild); // Caching elements
-
-      this.heading = this.overlay.querySelector("h1");
-      this.desc = this.overlay.querySelector(".overlay-desc");
-      this.year = this.overlay.querySelector(".overlay-year");
-      this.size = this.overlay.querySelector(".overlay-size");
-    }
-  }, {
-    key: "mountControls",
-    value: function mountControls() {
-      var _this = this;
-
-      this.controls.innerHTML = "\n\t\t\t<section class=\"overlay-control\">\n\t\t\t\t<h1 class=\"sep-head\">Guide</h1>\n\t\t\t\t<section class=\"overlay-controls-view\">\n\t\t\t\t\t<img src=\"".concat(_upIcon.default, "\" alt=\"Up Arrow Key\" />\n\t\t\t\t\t<img src=\"").concat(_downIcon.default, "\" alt=\"Down Arrow Key\" />\n\t\t\t\t\t<img src=\"").concat(_spaceIcon.default, "\" alt=\"Space Arrow Key\" />\n\t\t\t\t</section>\n\t\t\t\t<h3>\n\t\t\t\t\tUse the <b>up or down arrow keys</b> or the <b>mouse's scroll wheel</b> to explore the demo\n\t\t\t\t\t<br /><br />\n\t\t\t\t\t<b>Click, hold and drag (pan)</b> to explore the scenes in three dimension\n\t\t\t\t\t<br /><br />\n\t\t\t\t\tUse the <b> space bar </b> or the <b>button below</b> to play / pause the demo\t\t\t\t\t\n\t\t\t\t</h3>\t\n\t\t\t\t<button class=\"btn\">Play</btn>\n\t\t\t</section>\n\t\t");
-      document.body.appendChild(this.controls);
-      this.toggleBtn = this.controls.querySelector(".btn");
-      this.toggleBtn.addEventListener("click", function () {
-        _this.orchestrator.play = !_this.orchestrator.play;
-
-        _this.renderControls();
-      });
-    }
-  }, {
-    key: "renderControls",
-    value: function renderControls() {
-      this.toggleBtn.innerText = this.orchestrator.play ? "Pause" : "Play";
-    }
-  }, {
-    key: "mount",
-    value: function mount() {
-      this.overlay = document.createElement("section");
-      this.overlay.classList.add("overlay");
-      this.controls = this.overlay.cloneNode(true);
-      this.controls.classList.add("overlay-right");
-      this.mountOverlay();
-      this.mountControls();
-    }
-  }, {
-    key: "current",
-    get: function get() {
-      return this._current;
-    },
-    set: function set(i) {
-      var _this$groups;
-
-      if (this.current === i || !this.groups[i]) {
-        return;
-      }
-
-      this._current = i;
-      var curr = this.groups[i];
-      var prev = (_this$groups = this.groups) === null || _this$groups === void 0 ? void 0 : _this$groups[i - 1];
-      this.heading.innerText = curr.info.name;
-      this.year.innerText = "Released in ".concat(curr.info.year);
-      this.size.innerText = "~ ".concat(curr.info.size);
-      this.desc.innerHTML = prev ? curr.info.relativeText(prev.info) : "";
-    }
-  }, {
-    key: "hide",
-    value: function hide() {
-      if (!this.overlay || this.overlay.style.display === "none") {
-        return;
-      }
-
-      this.overlay.style.display = "none";
-    }
-  }, {
-    key: "show",
-    value: function show() {
-      if (!this.overlay || this.overlay.style.display === "flex") {
-        return;
-      }
-
-      this.overlay.style.display = "flex";
-    }
-  }]);
-
-  return Overlay;
-}();
-
-var _default = Overlay;
-exports.default = _default;
-},{"../../assets/up-icon.svg":"assets/up-icon.svg","../../assets/down-icon.svg":"assets/down-icon.svg","../../assets/space-icon.svg":"assets/space-icon.svg"}],"js/components/Orchestrator.js":[function(require,module,exports) {
+},{"three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js"}],"js/components/Orchestrator.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -45394,11 +45584,9 @@ var _three = require("three");
 
 var _minMax = _interopRequireWildcard(require("../utils/minMax"));
 
-var _Overlay = _interopRequireDefault(require("./Overlay"));
+var _overlays = require("./overlays");
 
 var _conf = require("../conf");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
@@ -45428,7 +45616,7 @@ var Orchestrator = /*#__PURE__*/function () {
 
     _defineProperty(this, "walls", []);
 
-    _defineProperty(this, "overlay", null);
+    _defineProperty(this, "controls", null);
 
     _defineProperty(this, "up", false);
 
@@ -45442,7 +45630,7 @@ var Orchestrator = /*#__PURE__*/function () {
     this.attachListeners();
     this.mountHero();
     this.setupWalls();
-    this.overlay = new _Overlay.default(this.groups, this, 0);
+    this.controls = new _overlays.ControlsOverlay(this);
   }
 
   _createClass(Orchestrator, [{
@@ -45458,14 +45646,6 @@ var Orchestrator = /*#__PURE__*/function () {
       }
 
       this._scroll = scroll;
-
-      if (this.scroll < 120) {
-        this.overlay.hide();
-      } else {
-        this.overlay.show();
-      }
-
-      this.overlay.current = this.getActive();
     }
   }, {
     key: "play",
@@ -45480,7 +45660,7 @@ var Orchestrator = /*#__PURE__*/function () {
       this.up = false;
       this.down = false;
       this._play = play;
-      this.overlay.renderControls();
+      this.controls.renderControls();
     }
   }, {
     key: "setupWalls",
@@ -45507,7 +45687,7 @@ var Orchestrator = /*#__PURE__*/function () {
       this.hero = document.createElement("main");
       this.hero.id = "hero";
       this.hero.classList.add("cont");
-      this.hero.innerHTML = "\n\t\t\t<h1 class=\"sep-head\">Welcome to <b>storage visualization</b></h1>\n\t\t\t<p>This demo visualizes the storage capacities of various devices, in three dimensions.</p>\n\t\t\t<p>Begin scrolling by using the mouse, or the arrow keys, to start the experience</p>\n\t\t";
+      this.hero.innerHTML = "\n\t\t\t<h1 class=\"sep-head\">Welcome to <b>storage visualization</b></h1>\n\t\t\t<p>This demo visualizes the storage capacities of various devices, in three dimensions.</p>\n\t\t\t<p>Begin scrolling by using the mouse, or the arrow keys, to start the experience, or press the <b>spacebar</b> to autoplay.</p>\n\t\t";
       document.body.insertBefore(this.hero, document.body.firstChild);
     }
   }, {
@@ -45544,9 +45724,7 @@ var Orchestrator = /*#__PURE__*/function () {
       document.addEventListener("keyup", function (_ref3) {
         var keyCode = _ref3.keyCode;
 
-        if (keyCode === 32) {
-          _this.play = !_this.play;
-        } else if (keyCode === 38) {
+        if (keyCode === 38) {
           _this.up = false;
         } else if (keyCode === 40) {
           _this.down = false;
@@ -45617,7 +45795,7 @@ _defineProperty(Orchestrator, "overlayTill", 0.5);
 
 var _default = Orchestrator;
 exports.default = _default;
-},{"../scene":"js/scene.js","three":"../node_modules/three/build/three.module.js","../utils/minMax":"js/utils/minMax.js","./Overlay":"js/components/Overlay.js","../conf":"js/conf.js"}],"assets/floppy.glb":[function(require,module,exports) {
+},{"../scene":"js/scene.js","three":"../node_modules/three/build/three.module.js","../utils/minMax":"js/utils/minMax.js","./overlays":"js/components/overlays/index.js","../conf":"js/conf.js"}],"assets/floppy.glb":[function(require,module,exports) {
 module.exports = "/floppy.75b17654.glb";
 },{}],"assets/cdmain.glb":[function(require,module,exports) {
 module.exports = "/cdmain.b60c6334.glb";
@@ -45625,6 +45803,14 @@ module.exports = "/cdmain.b60c6334.glb";
 module.exports = "/flash.2f89db1b.glb";
 },{}],"assets/hdd.glb":[function(require,module,exports) {
 module.exports = "/hdd.1708544e.glb";
+},{}],"assets/yoshiro.jpg":[function(require,module,exports) {
+module.exports = "/yoshiro.c9ee0c26.jpg";
+},{}],"assets/reynold.jpg":[function(require,module,exports) {
+module.exports = "/reynold.2c94c55f.jpg";
+},{}],"assets/james.jpg":[function(require,module,exports) {
+module.exports = "/james.4ba2f6a5.jpg";
+},{}],"assets/dov.jpg":[function(require,module,exports) {
+module.exports = "/dov.123510ee.jpg";
 },{}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
@@ -45720,16 +45906,24 @@ var _flash = _interopRequireDefault(require("../assets/flash.glb"));
 
 var _hdd = _interopRequireDefault(require("../assets/hdd.glb"));
 
+var _yoshiro = _interopRequireDefault(require("../assets/yoshiro.jpg"));
+
+var _reynold = _interopRequireDefault(require("../assets/reynold.jpg"));
+
+var _james = _interopRequireDefault(require("../assets/james.jpg"));
+
+var _dov = _interopRequireDefault(require("../assets/dov.jpg"));
+
 require("../style/index.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 window.addEventListener("DOMContentLoaded", function () {
   (0, _scene.setup)();
-  var floppyInfo = new _DeviceInfo.default("Floppy", "floppies", 1000000, 1976);
-  var cdInfo = new _DeviceInfo.default("Compact Disc - CD", "CDs", 760000000, 1982);
-  var flashInfo = new _DeviceInfo.default("Flash Drive", "flash drives", 64000000000, 2000);
-  var hddInfo = new _DeviceInfo.default("Hard disk Drive", "hard disks", 10000000000000, 2000);
+  var floppyInfo = new _DeviceInfo.default("Floppy", "floppies", 1000000, 1976, "Yoshiro Nakamatsu", _yoshiro.default);
+  var cdInfo = new _DeviceInfo.default("Compact Disc - CD", "CDs", 760000000, 1982, "James Russell", _james.default);
+  var flashInfo = new _DeviceInfo.default("Flash Drive", "flash drives", 64000000000, 2000, "Dov Moran", _dov.default);
+  var hddInfo = new _DeviceInfo.default("Hard disk Drive", "hard disks", 10000000000000, 2000, "Reynold B. Johnson", _reynold.default);
   var scaleFloppy = new _three.Vector3(0.25, 0.25, 0.25);
   var scaleCd = new _three.Vector3(2.2, 2.2, 2.2);
   var scaleFlash = new _three.Vector3(0.25, 0.25, 0.25);
@@ -45747,18 +45941,21 @@ window.addEventListener("DOMContentLoaded", function () {
     scale: scaleCd,
     info: cdInfo,
     nextInfo: flashInfo,
+    prevInfo: floppyInfo,
     asset: cdAsset,
     scaleBy: 7
   }), new _DeviceGroup.default({
     scale: scaleFlash,
     info: flashInfo,
     nextInfo: hddInfo,
+    prevInfo: cdInfo,
     asset: flashAsset,
     scaleBy: 5.8,
     exitable: false
   }), new _DeviceGroup.default({
     scale: scaleHdd,
     info: hddInfo,
+    prevInfo: flashInfo,
     asset: hddAsset,
     scaleBy: 5.8
   })];
@@ -45772,7 +45969,7 @@ window.addEventListener("DOMContentLoaded", function () {
 
   requestAnimationFrame(render);
 });
-},{"three":"../node_modules/three/build/three.module.js","./scene":"js/scene.js","./components/DeviceInfo":"js/components/DeviceInfo.js","./components/DeviceGroup":"js/components/DeviceGroup.js","./Asset":"js/Asset.js","./components/Orchestrator":"js/components/Orchestrator.js","../assets/floppy.glb":"assets/floppy.glb","../assets/cdmain.glb":"assets/cdmain.glb","../assets/flash.glb":"assets/flash.glb","../assets/hdd.glb":"assets/hdd.glb","../style/index.css":"style/index.css"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","./scene":"js/scene.js","./components/DeviceInfo":"js/components/DeviceInfo.js","./components/DeviceGroup":"js/components/DeviceGroup.js","./Asset":"js/Asset.js","./components/Orchestrator":"js/components/Orchestrator.js","../assets/floppy.glb":"assets/floppy.glb","../assets/cdmain.glb":"assets/cdmain.glb","../assets/flash.glb":"assets/flash.glb","../assets/hdd.glb":"assets/hdd.glb","../assets/yoshiro.jpg":"assets/yoshiro.jpg","../assets/reynold.jpg":"assets/reynold.jpg","../assets/james.jpg":"assets/james.jpg","../assets/dov.jpg":"assets/dov.jpg","../style/index.css":"style/index.css"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -45800,7 +45997,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64897" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49739" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

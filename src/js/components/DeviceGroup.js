@@ -1,6 +1,7 @@
-import { Blending, MathUtils, Vector3 } from "three";
+import { Vector3 } from "three";
 import Device from "./Device";
 import { TimelineLite, Power2 } from "gsap";
+import { InfoOverlay } from "./overlays";
 import minMax from "../utils/minMax";
 import { infinity } from "../conf";
 
@@ -14,6 +15,10 @@ class DeviceGroup {
 	endLoad = null;
 
 	exitable = true;
+
+	info = null;
+	prevInfo = null;
+	infoOverlay = null;
 
 	devices = [];
 	hero = null;
@@ -249,6 +254,7 @@ class DeviceGroup {
 		scroll,
 		scale,
 		info,
+		prevInfo = null,
 		exitable = true,
 		nextInfo = null,
 		scaleBy = 10.5,
@@ -266,6 +272,9 @@ class DeviceGroup {
 		this.exitable = exitable;
 		this.scroll = scroll ?? 0;
 		this.info = info;
+
+		this.infoOverlay = new InfoOverlay(info, prevInfo);
+
 		this.scaleBy = scaleBy;
 		this.hero = new Device({
 			position: new Vector3(0, DeviceGroup.yPush, 0),
@@ -335,18 +344,26 @@ class DeviceGroup {
 
 		****************/
 
-		this.timelines.hero.enter.progress(minMax(scroll / 0.4));
+		const enterProg = minMax(scroll / 0.4),
+			combineProg = minMax((scroll - 0.4) / 0.3);
+
+		this.timelines.hero.enter.progress(enterProg);
+		this.infoOverlay.progress(enterProg * 0.5);
 
 		if (this.number <= 1) {
 			return;
 		}
-		this.timelines.hero.combine.progress(minMax((scroll - 0.4) / 0.3));
+		this.timelines.hero.combine.progress(combineProg);
+		if (enterProg === 1) {
+			this.infoOverlay.progress(0.5 + combineProg * 0.5);
+		}
+
 		if (this.exitable) {
 			this.timelines.hero.exit.progress(minMax((scroll - 0.7) / 0.3));
 		}
 
 		this.timelines.rest.forEach(({ enter, exit }) => {
-			enter.progress(minMax((scroll - 0.4) / 0.3));
+			enter.progress(combineProg);
 			if (this.exitable) {
 				exit.progress(minMax((scroll - 0.7) / 0.3));
 			}

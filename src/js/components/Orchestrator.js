@@ -1,7 +1,7 @@
 import { scene } from "../scene";
 import { CylinderGeometry, Mesh, MeshPhysicalMaterial } from "three";
 import minMax, { minMaxFactory } from "../utils/minMax";
-import Overlay from "./Overlay";
+import { ControlsOverlay } from "./overlays";
 import { infinity } from "../conf";
 
 class Orchestrator {
@@ -18,7 +18,7 @@ class Orchestrator {
 
 	minMax = null;
 	walls = [];
-	overlay = null;
+	controls = null;
 
 	up = false;
 	down = false;
@@ -35,15 +35,7 @@ class Orchestrator {
 		} else if (scroll <= 0) {
 			scroll = 0;
 		}
-
 		this._scroll = scroll;
-		if (this.scroll < 120) {
-			this.overlay.hide();
-		} else {
-			this.overlay.show();
-		}
-
-		this.overlay.current = this.getActive();
 	}
 
 	get play() {
@@ -57,7 +49,7 @@ class Orchestrator {
 		this.up = false;
 		this.down = false;
 		this._play = play;
-		this.overlay.renderControls();
+		this.controls.renderControls();
 	}
 
 	constructor(groups) {
@@ -68,7 +60,7 @@ class Orchestrator {
 		this.attachListeners();
 		this.mountHero();
 		this.setupWalls();
-		this.overlay = new Overlay(this.groups, this, 0);
+		this.controls = new ControlsOverlay(this);
 	}
 
 	setupWalls() {
@@ -94,7 +86,7 @@ class Orchestrator {
 		this.hero.innerHTML = `
 			<h1 class="sep-head">Welcome to <b>storage visualization</b></h1>
 			<p>This demo visualizes the storage capacities of various devices, in three dimensions.</p>
-			<p>Begin scrolling by using the mouse, or the arrow keys, to start the experience</p>
+			<p>Begin scrolling by using the mouse, or the arrow keys, to start the experience, or press the <b>spacebar</b> to autoplay.</p>
 		`;
 		document.body.insertBefore(this.hero, document.body.firstChild);
 	}
@@ -125,9 +117,7 @@ class Orchestrator {
 		});
 
 		document.addEventListener("keyup", ({ keyCode }) => {
-			if (keyCode === 32) {
-				this.play = !this.play;
-			} else if (keyCode === 38) {
+			if (keyCode === 38) {
 				this.up = false;
 			} else if (keyCode === 40) {
 				this.down = false;
